@@ -1,0 +1,48 @@
+var ttl = !{title}
+
+extends layout
+
+block content
+  div(ng-controller="BasicCtrl")
+    h1= title
+    p #{where}
+    p #{when}
+    br
+    p INFO:Welcome to Collaborative Board for #{title} 
+    p #{info}
+    br
+    p ATTENTION PLEASE: 
+    p #{warning}
+    div.container-fluid
+      div.row
+        div.MainPanel.col-sm-3.col-sm-offset-1
+          p Collaborative Text:
+          div(id="examplePadBasic")
+        div.MainPanel.col-sm-3
+          p Collaborative SpreadSheet:
+          div
+            object(type="text/html", data="http://kurakurabay.net:8000/" + title, width="400", height="500", style="overflow:auto;border:5px ridge green")
+      div.row
+        div(id="viz").col-sm-6.col-sm-offset-1
+          img(id="viza" src="data/img.jpg" height="100") 
+
+
+  script(type='text/javascript').
+    var title = '#{title}';
+    $('#examplePadBasic').pad({'padId':title, 'host':'http://kurakurabay:9001', 'showControls':'false', 'width':'400', 'height':'500', 'border':'2px'});
+    
+  script(type='text/javascript').
+    var dataset;
+    d3.select("#viz").append("p").text("Data Here:");
+    d3.csv( 'data/food.csv', function( error, data ){  
+      if( error ) {
+        d3.select( '#viz' ).append( "p" ).text( "Oops, something went wrong, data can not be loaded!" );
+      } else {
+        dataset = data;
+        console.log( data );
+        data.forEach( function( d ) {
+          d3.select( '#viz' ).append( "p" ).text( d.Food + " : " + d.Deliciousness );
+        } );
+      }   
+    } );    
+

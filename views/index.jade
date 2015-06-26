@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  div.container-fluid(ng-controller="HomeCtrl")
+    div.row
+      div.TextPanel.col-sm-3
+        p Collaborative Text:
+        div(id="examplePadBasic")
+      div.SheetPanel.col-sm-6
+        p Collaborative SpreadSheet:
+        div
+          object(type="text/html", data="http://bluerock:8000/test", width="100%", height="500", style="overflow:auto;border:5px ridge green")
+        div.TwinMiniPanel
+          |Plot column &nbsp
+          input(type="text", ng-model="barCol" placeholder="1", value="1", size="2")
+          |&nbsp as:
+          br
+          button.btn.btn-primary( ng-click="plotBar()" ) Bar Graph
+          br
+          br
+          button.btn.btn-primary( ng-click="plotLine()" ) Line Graph
+          br
+          br
+          button.btn.btn-primary( ng-click="plotPie()" ) Pie Chart
+        div.TwinMiniPanel
+          |Plot columns &nbsp
+          input(type-"text", value="1", placeholder="1", size="2") 
+          | &nbsp and &nbsp 
+          input(type-"text", value="2", placeholder="2", size="2") 
+         
+          |&nbsp as
+          br
+          button.btn.btn-danger( ng-click="plotScatter()" ) ScatterPlot    
+      div.PlotPanel.col-sm-3
+        p Plots:
+        div(id="Plots")
+        
+        
+  script(type='text/javascript').
+    $('#examplePadBasic').pad({'padId':'test', 'showControls':'false', 'width':'400', 'height':'500', 'border':'2px'});
